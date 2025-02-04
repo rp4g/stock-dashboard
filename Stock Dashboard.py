@@ -63,7 +63,6 @@ if st.sidebar.button('Update'):
     
     last_close, change, pct_change, high, low, volume = calculate_metrics(data)
     
-    # Display main metrics
     st.metric(label=f"{ticker} Last Price", value=f"{last_close:.2f} USD", delta=f"{change:.2f} ({pct_change:.2f}%)")
     
     col1, col2, col3 = st.columns(3)
@@ -71,7 +70,6 @@ if st.sidebar.button('Update'):
     col2.metric("Low", f"{low:.2f} USD")
     col3.metric("Volume", f"{volume:,}")
     
-    # Plot the stock price chart
     fig = go.Figure()
     if chart_type == 'Candlestick':
         fig.add_trace(go.Candlestick(x=data['Datetime'],
@@ -82,7 +80,6 @@ if st.sidebar.button('Update'):
     else:
         fig = px.line(data, x='Datetime', y='Close')
     
-    # Add selected technical indicators to the chart
     for indicator in indicators:
         if indicator == 'SMA 20':
             fig.add_trace(go.Scatter(x=data['Datetime'], y=data['SMA_20'], name='SMA 20'))
@@ -95,7 +92,6 @@ if st.sidebar.button('Update'):
                       height=600)
     st.plotly_chart(fig, use_container_width=True)
     
-    # Display historical data and technical indicators
     st.subheader('Historical Data')
     st.dataframe(data[['Datetime', 'Open', 'High', 'Low', 'Close', 'Volume']])
     
